@@ -1,0 +1,11 @@
+name: Verify CI
+
+on:
+  pull_request:
+    branches:
+      - 'dev'
+      - 'main'
+
+jobs:
+  call_workflow:
+    uses: PrintScript8/ingsis-library/.github/workflows/on-pull-request.yml@main
