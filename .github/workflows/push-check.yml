@@ -7,9 +7,8 @@ on:
       - 'main'
 
 jobs:
-
-  build:
-    name: Build Project
+  build_and_publish:
+    name: Build and Publish Docker Image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,17 +24,6 @@ jobs:
 
       - name: Build project
         run: npm run build
-
-  publish_docker:
-    name: Publish Docker image
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Check if dist directory exists
-        run: test -d dist
 
       - name: Copy static files
         run: cp -r dist/* .
@@ -59,7 +47,7 @@ jobs:
 
   rerun_image:
     name: Rerun Docker image
-    needs: publish_docker
+    needs: build_and_publish
     uses: PrintScript8/ingsis-library/.github/workflows/vm-login.yml@main
     with:
       service_name: ${{ github.ref == 'refs/heads/main' && 'ui' || 'ui-dev' }}
