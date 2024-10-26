@@ -28,11 +28,14 @@ jobs:
 
   publish_docker:
     name: Publish Docker image
-    needs:  build
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Check if dist directory exists
+        run: test -d dist
 
       - name: Copy static files
         run: cp -r dist/* .
