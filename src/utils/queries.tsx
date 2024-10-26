@@ -6,21 +6,24 @@ import {FakeSnippetOperations} from "./mock/fakeSnippetOperations.ts";
 import {TestCase} from "../types/TestCase.ts";
 import {FileType} from "../types/FileType.ts";
 import {Rule} from "../types/Rule.ts";
-// import {useAuth0} from "@auth0/auth0-react";
-// import {useEffect} from "react";
+import {useAuth0} from "@auth0/auth0-react";
+import {useEffect} from "react";
 
 
 export const useSnippetsOperations = () => {
-  // const {getAccessTokenSilently} = useAuth0()
-  //
-  // useEffect(() => {
-  //     getAccessTokenSilently()
-  //         .then(token => {
-  //             console.log(token)
-  //         })
-  //         .catch(error => console.error(error));
-  // });
+   const {getAccessTokenSilently} = useAuth0()
 
+  // If a token is obtained it is logged to the console, else an error is logged
+   useEffect(() => {
+       getAccessTokenSilently()
+           .then(token => {
+               console.log(token)
+           })
+           .catch(error => console.error(error));
+  });
+
+   // A Snippet operations instance is created in order to use it in the rest of the application
+  // It includes the get access token method to retrieve the token and use it in its operations
   const snippetOperations: SnippetOperations = new FakeSnippetOperations(/* getAccessTokenSilently */); // TODO: Replace with your implementation
 
   return snippetOperations
@@ -36,7 +39,7 @@ export const useGetSnippetById = (id: string) => {
   const snippetOperations = useSnippetsOperations()
 
   return useQuery<Snippet | undefined, Error>(['snippet', id], () => snippetOperations.getSnippetById(id), {
-    enabled: !!id, // This query will not execute until the id is provided
+    enabled: !!id, // Ensures that ID is passed correctly to function
   });
 };
 

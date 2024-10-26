@@ -3,7 +3,7 @@ import {CreateSnippet} from "../../src/utils/snippet";
 
 describe('Home', () => {
   beforeEach(() => {
-    // cy.loginToAuth0( TODO DE-Comment when auth0 is ready
+     cy.loginToAuth0( TODO DE-Comment when auth0 is ready
     //     AUTH0_USERNAME,
     //     AUTH0_PASSWORD
     // )
