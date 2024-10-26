@@ -31,7 +31,7 @@ jobs:
 
   publish_docker:
     name: Publish Docker image
-    needs: [ verify_valid, build ]
+    needs: [verify_valid, build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
