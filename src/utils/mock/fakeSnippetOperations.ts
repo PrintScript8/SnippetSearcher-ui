@@ -9,7 +9,7 @@ import {FileType} from "../../types/FileType.ts";
 import {Rule} from "../../types/Rule.ts";
 
 const DELAY: number = 1000
-//This is a comment
+//This is a comment. Now more
 export class FakeSnippetOperations implements SnippetOperations {
   private readonly fakeStore = new FakeSnippetStore()
 
