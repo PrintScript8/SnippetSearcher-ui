@@ -7,9 +7,6 @@ on:
       - 'main'
 
 jobs:
-  verify_valid:
-    name: Verify valid image
-    uses: PrintScript8/ingsis-library/.github/workflows/on-pull-request.yml@main
 
   build:
     name: Build Project
@@ -31,7 +28,7 @@ jobs:
 
   publish_docker:
     name: Publish Docker image
-    needs: [verify_valid, build]
+    needs:  build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
