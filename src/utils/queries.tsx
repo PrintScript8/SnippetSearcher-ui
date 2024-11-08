@@ -8,6 +8,7 @@ import {FileType} from "../types/FileType.ts";
 import {Rule} from "../types/Rule.ts";
 import {useAuth0} from "@auth0/auth0-react";
 import {useEffect} from "react";
+import {AUTH0_AUDIENCE} from "./constants.ts";
 
 
 export const useSnippetsOperations = () => {
@@ -15,9 +16,10 @@ export const useSnippetsOperations = () => {
 
   // If a token is obtained it is logged to the console, else an error is logged
    useEffect(() => {
-       getAccessTokenSilently()
+       getAccessTokenSilently({authorizationParams: {audience: AUTH0_AUDIENCE}})
            .then(token => {
                console.log(token)
+             console.log(AUTH0_AUDIENCE)
            })
            .catch(error => console.error(error));
   });
