@@ -15,7 +15,7 @@ class SnippetOperationsImpl implements SnippetOperations {
 
     async listSnippetDescriptors2(page: number, pageSize: number, snippetName?: string): Promise<PaginatedSnippets> {
         const token = await this.getAccessTokenSilently();
-        const response = await fetch(`https://localhost:8080/validateToken`, {
+        const response = await fetch(`here should be the request for the other services`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
