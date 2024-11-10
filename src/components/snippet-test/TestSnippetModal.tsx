@@ -9,13 +9,14 @@ import {queryClient} from "../../App.tsx";
 type TestSnippetModalProps = {
     open: boolean
     onClose: () => void
+    id: string
 }
 
-export const TestSnippetModal = ({open, onClose}: TestSnippetModalProps) => {
+export const TestSnippetModal = ({open, onClose, id}: TestSnippetModalProps) => {
     const [value, setValue] = useState(0);
 
     const {data: testCases} = useGetTestCases();
-    const {mutateAsync: postTestCase} = usePostTestCase();
+    const {mutateAsync: postTestCase} = usePostTestCase(id);
     const {mutateAsync: removeTestCase} = useRemoveTestCase({
         onSuccess: () => queryClient.invalidateQueries('testCases')
     });

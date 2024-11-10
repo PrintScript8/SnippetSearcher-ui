@@ -88,7 +88,7 @@ export const TabPanel = ({value, index, test: initialTest, setTestCase, removeTe
                         <Button disabled={!testData?.name} onClick={() => setTestCase(testData ?? {})} variant={"outlined"} startIcon={<Save/>}>
                             Save
                         </Button>
-                        <Button onClick={() => testSnippet(testData ?? {})} variant={"contained"} startIcon={<BugReport/>}
+                        <Button onClick={() => testSnippet({...testData, id: initialTest?.id} ?? {})} variant={"contained"} startIcon={<BugReport/>}
                                 disableElevation>
                             Test
                         </Button>

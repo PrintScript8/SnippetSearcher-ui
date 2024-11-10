@@ -6,7 +6,7 @@ import {FileType} from "../types/FileType.ts";
 import {Rule} from "../types/Rule.ts";
 
 export interface SnippetOperations {
-  listSnippetDescriptors(page: number,pageSize: number,sippetName?: string): Promise<PaginatedSnippets>
+  listSnippetDescriptors(page: number,pageSize: number,snippetName?: string): Promise<PaginatedSnippets>
 
   createSnippet(createSnippet: CreateSnippet): Promise<Snippet>
 
@@ -26,7 +26,7 @@ export interface SnippetOperations {
 
   formatSnippet(snippet: string): Promise<string>
 
-  postTestCase(testCase: Partial<TestCase>): Promise<TestCase>
+  postTestCase(testCase: Partial<TestCase>, id: string): Promise<TestCase>
 
   removeTestCase(id: string): Promise<string>
 
