@@ -21,7 +21,7 @@ const router = createBrowserRouter([
 
 export const queryClient = new QueryClient()
 const App = () => {
-    const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+    const { isAuthenticated, isLoading, getAccessTokenSilently, user } = useAuth0();
 
     useEffect(() => {
         // If the user is being redirected back from Auth0, handle the redirect and process the authentication
@@ -41,11 +41,14 @@ const App = () => {
     // Call your backend API with the access token
     const callLogin = async (token: string) => {
         console.log("Is inside callLogin: ", token)
+        console.log("This is the user: ", user)
+        //console.log("This is the name: ", user.name)
         try {
             const response = await fetch('https://snippet-searcher.duckdns.org/permissions/users', {
                 method: 'POST',
                 headers: {
                     Authorization: `${token}`, // Include the access token in the Authorization header
+                    name: user?.nickname || ''
                 },
             });
 
