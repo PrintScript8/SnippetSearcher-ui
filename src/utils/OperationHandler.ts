@@ -9,67 +9,73 @@ import {TestCaseResult} from "./queries.tsx";
 
 
 export class OperationHandler implements SnippetOperations {
+    private readonly getAccessToken: () => Promise<string>;
 
-    createSnippet(createSnippet: CreateSnippet): Promise<Snippet> {
-        return axios.post("http://localhost:8082/snippets", createSnippet, {
-            headers: {
-                id: 1
-            }
-        }) //8082 es snippet
+    constructor(getAccessToken: () => Promise<string>) {
+        this.getAccessToken = getAccessToken;
+    }
+
+    private async getAuthHeaders() {
+        const token = await this.getAccessToken();
+        return {
+            Authorization: `${token}`,
+            id: 1
+        };
+    }
+
+    async createSnippet(createSnippet: CreateSnippet): Promise<Snippet> {
+        const headers = await this.getAuthHeaders();
+        return axios.post("http://localhost:8082/snippets", createSnippet, {headers : headers}) //8082 es snippet
     }
 
     async getSnippetById(id: string): Promise<Snippet | undefined> {
-        const response = await axios.get(`http://localhost:8082/snippets/${id}`, {
-            headers: {
-                id: 1
-            }
-        }); //8082 es snippet
+        const headers = await this.getAuthHeaders();
+        const response = await axios.get(`http://localhost:8082/snippets/${id}`, { headers: headers }); //8082 es snippet
         return response.data;
     }
 
     async updateSnippetById(id: string, updateSnippet: UpdateSnippet): Promise<Snippet> {
+        const headers = await this.getAuthHeaders();
         console.log(updateSnippet)
         const response = await axios.put(
             `http://localhost:8082/snippets/${id}`,
             { content: updateSnippet.content },
             {
                 params: { language: "printscript" },
-                headers: { id: 1 }
+                headers: headers
             }
         );
         return response.data;
     }
 
-    deleteSnippet(id: string): Promise<string> {
+    async deleteSnippet(id: string): Promise<string> {
+        const headers = await this.getAuthHeaders();
         return axios.delete(`http://localhost:8082/snippets/${id}`, {
-            headers: {
-                id: 1
-            }
+            headers: headers
         }) //8082 es snippet
     }
 
-    modifyFormatRule(newRules: Rule[]): Promise<Rule[]> {
+    async modifyFormatRule(newRules: Rule[]): Promise<Rule[]> {
+        const headers = await this.getAuthHeaders();
         return axios.put("http://localhost:8082/snippets/config/formatting", newRules, {
             params: {language: "printscript"},
-            headers: {
-                id: 1
-            }
+            headers: headers
         }) //8082 es snippet
     }
 
-    modifyLintingRule(newRules: Rule[]): Promise<Rule[]> {
+    async modifyLintingRule(newRules: Rule[]): Promise<Rule[]> {
+        const headers = await this.getAuthHeaders();
         return axios.put("http://localhost:8082/snippets/config/linting", newRules, {
             params: {language: "printscript"},
-            headers: {
-                id: 1
-            }
+            headers: headers
         }) //8082 es snippet
     }
 
     async listSnippetDescriptors(page: number, pageSize: number, snippetName?: string): Promise<PaginatedSnippets> {
+        const headers = await this.getAuthHeaders();
         const response = await axios.get(`http://localhost:8082/snippets/paginated`, {
             params: { page, pageSize, snippetName },
-            headers: { id: 1 }
+            headers: headers
         });
 
         const data = response.data; // Access the response data directly
@@ -95,50 +101,47 @@ export class OperationHandler implements SnippetOperations {
     }
 
     async getUserFriends(name?: string, page: number = 0, pageSize: number = 10): Promise<PaginatedUsers> {
+        const headers = await this.getAuthHeaders();
         const response = await axios.get(`http://localhost:8083/users`, {
             params: { name, page: page - 1, pageSize },
-            headers: { id: 1 }
+            headers: headers
         });
         return response.data;
     }
 
-    shareSnippet(snippetId: string,userId: string): Promise<Snippet> {
+    async shareSnippet(snippetId: string, userId: string): Promise<Snippet> {
+        const headers = await this.getAuthHeaders();
         return axios.put(`http://localhost:8083/users/snippets/share`, {
-              snippetId: snippetId,
-              id: userId
-            }, {
-            headers: {
-                id: 1
-            }
+            snippetId: snippetId,
+            id: userId
+        }, {
+            headers: headers
         }) //8083 es permissions
     }
 
     async getFormatRules(): Promise<Rule[]> {
+        const headers = await this.getAuthHeaders();
         const response = await axios.get("http://localhost:8082/snippets/config/formatting", {
             params: { language: "printscript" },
-            headers: {
-                id: 1
-            }
+            headers: headers
         }); //8082 es snippet
         return response.data;
     }
 
     async getLintingRules(): Promise<Rule[]> {
+        const headers = await this.getAuthHeaders();
         const response = await axios.get("http://localhost:8082/snippets/config/linting", {
             params: {language: "printscript"},
-            headers: {
-                id: 1
-            }
+            headers: headers
         }); //8082 es snippet
         console.log(response.data)
         return response.data;
     }
 
     async getTestCases(): Promise<TestCase[]> {
+        const headers = await this.getAuthHeaders();
         const response = await axios.get("http://localhost:8082/test", {
-            headers: {
-                id: 1
-            }
+            headers: headers
         });
 
         if (Array.isArray(response.data)) {
@@ -155,24 +158,22 @@ export class OperationHandler implements SnippetOperations {
     }
 
     async formatSnippet(snippet: string): Promise<string> {
+        const headers = await this.getAuthHeaders();
         const response = await axios.post("http://localhost:8082/actions/format", {
             params: {
                 code: snippet
             },
-            headers: {
-                id: 1
-            }
+            headers: headers
         }); //8082 es snippet
         console.log(response.data)
         return response.data;
     }
 
     async getFileTypes(): Promise<FileType[]> {
+        const headers = await this.getAuthHeaders();
         console.log("getFileTypes")
         const response = await axios.get("http://localhost:8082/actions/type", {
-            headers: {
-                id: 1,
-            }
+            headers: headers
         });
         if (Array.isArray(response.data)) {
             return response.data;
@@ -180,7 +181,8 @@ export class OperationHandler implements SnippetOperations {
             throw new Error("Response is not an array");
         }
     }
-    postTestCase(testCase: Partial<TestCase>, id: string): Promise<TestCase> {
+    async postTestCase(testCase: Partial<TestCase>, id: string): Promise<TestCase> {
+        const headers = await this.getAuthHeaders();
         console.log(id, testCase);
         return axios.post("http://localhost:8082/test", {
             id: id,
@@ -188,21 +190,19 @@ export class OperationHandler implements SnippetOperations {
             input: testCase.input || [],
             output: testCase.output || []
         }, {
-            headers: {
-                id: 1
-            }
+            headers: headers
         });
     }
 
-    removeTestCase(id: string): Promise<string> {
+    async removeTestCase(id: string): Promise<string> {
+        const headers = await this.getAuthHeaders();
         return axios.delete(`http://localhost:8082/test/${id}`, {
-            headers: {
-                id: 1
-            }
+            headers: headers
         }) //8082 es snippet
     }
 
     async testSnippet(testCase: Partial<TestCase>): Promise<TestCaseResult> {
+        const headers = await this.getAuthHeaders();
         console.log(testCase.id)
         const response = await axios.put("http://localhost:8082/test/execute", {
                 id: testCase.id,
@@ -210,9 +210,7 @@ export class OperationHandler implements SnippetOperations {
                 input: testCase.input || [],
                 output: testCase.output || [],
             }, {
-            headers: {
-                id: 1
-            }
+            headers: headers
         }); //8082 es snippet
         return response.data as TestCaseResult;
     }

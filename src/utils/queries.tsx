@@ -14,6 +14,11 @@ import {OperationHandler} from "./OperationHandler.ts";
 export const useSnippetsOperations = () => {
    const {getAccessTokenSilently} = useAuth0()
 
+  // Wrapper function to include authorizationParams
+  const getAccessToken = () => {
+    return getAccessTokenSilently({authorizationParams: {audience: AUTH0_AUDIENCE}});
+  };
+
   // If a token is obtained it is logged to the console, else an error is logged
    useEffect(() => {
        getAccessTokenSilently({authorizationParams: {audience: AUTH0_AUDIENCE}})
@@ -26,7 +31,7 @@ export const useSnippetsOperations = () => {
 
    // A Snippet operations instance is created in order to use it in the rest of the application
   // It includes the get access token method to retrieve the token and use it in its operations
-  const snippetOperations: SnippetOperations = new FakeSnippetOperations(/* getAccessTokenSilently */); // TODO: Replace with your implementation
+  const snippetOperations: SnippetOperations = new OperationHandler( getAccessToken );
 
   return snippetOperations
 }
