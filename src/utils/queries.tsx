@@ -6,7 +6,7 @@ import {TestCase} from "../types/TestCase.ts";
 import {FileType} from "../types/FileType.ts";
 import {Rule} from "../types/Rule.ts";
 import {useAuth0} from "@auth0/auth0-react";
-import {useEffect} from "react";
+// import {useEffect} from "react";
 import {AUTH0_AUDIENCE} from "./constants.ts";
 import {OperationHandler} from "./OperationHandler.ts";
 
@@ -20,14 +20,17 @@ export const useSnippetsOperations = () => {
   };
 
   // If a token is obtained it is logged to the console, else an error is logged
-   useEffect(() => {
-       getAccessTokenSilently({authorizationParams: {audience: AUTH0_AUDIENCE}})
-           .then(token => {
+  /*
+  useEffect(() => {
+      getAccessTokenSilently({authorizationParams: {audience: AUTH0_AUDIENCE}})
+          .then(token => {
                console.log(token)
-             console.log(AUTH0_AUDIENCE)
-           })
-           .catch(error => console.error(error));
+               console.log(AUTH0_AUDIENCE)
+          })
+          .catch(error => console.error(error));
   });
+
+   */
 
    // A Snippet operations instance is created in order to use it in the rest of the application
   // It includes the get access token method to retrieve the token and use it in its operations
