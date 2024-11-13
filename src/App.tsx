@@ -44,7 +44,7 @@ const App = () => {
         console.log("This is the user: ", user)
         //console.log("This is the name: ", user.name)
         try {
-            const response = await fetch('https://snippet-searcher.duckdns.org/permissions/users', {
+            const response = await fetch('https://localhost:8083/permissions/users', {
                 method: 'POST',
                 headers: {
                     Authorization: `${token}`, // Include the access token in the Authorization header

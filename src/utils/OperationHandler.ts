@@ -95,14 +95,14 @@ export class OperationHandler implements SnippetOperations {
                 extension: snippet.extension,
                 content: snippet.content,
                 compliance: snippet.status,
-                author: snippet.ownerId.toString()
+                author: snippet.nickName
             }))
         };
     }
 
     async getUserFriends(name?: string, page: number = 0, pageSize: number = 10): Promise<PaginatedUsers> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.get(`http://localhost:8083/users`, {
+        const response = await axios.get(`http://localhost:8083/users/all`, {
             params: { name, page: page - 1, pageSize },
             headers: headers
         });
@@ -157,12 +157,13 @@ export class OperationHandler implements SnippetOperations {
         }
     }
 
-    async formatSnippet(snippet: string): Promise<string> {
+    async formatSnippet(snippet: string, id:string): Promise<string> {
         const headers = await this.getAuthHeaders();
         const response = await axios.post("http://localhost:8082/actions/format", {
-            params: {
+                language: "printscript",
+                id: id,
                 code: snippet
-            },
+            }, {
             headers: headers
         }); //8082 es snippet
         console.log(response.data)
