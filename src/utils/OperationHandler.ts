@@ -102,7 +102,7 @@ export class OperationHandler implements SnippetOperations {
 
     async getUserFriends(name?: string, page: number = 0, pageSize: number = 10): Promise<PaginatedUsers> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.get(`https://snippet-searcher.duckdns.org/permissions/users`, {
+        const response = await axios.get(`https://snippet-searcher.duckdns.org/permissions/users/all`, {
             params: { name, page: page - 1, pageSize },
             headers: headers
         });
