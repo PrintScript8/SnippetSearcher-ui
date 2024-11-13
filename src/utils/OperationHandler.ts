@@ -25,12 +25,12 @@ export class OperationHandler implements SnippetOperations {
 
     async createSnippet(createSnippet: CreateSnippet): Promise<Snippet> {
         const headers = await this.getAuthHeaders();
-        return axios.post("http://localhost:8082/snippets", createSnippet, {headers : headers}) //8082 es snippet
+        return axios.post("https://snippet-searcher.duckdns.org/snippets/snippets", createSnippet, {headers : headers}) //8082 es snippet
     }
 
     async getSnippetById(id: string): Promise<Snippet | undefined> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.get(`http://localhost:8082/snippets/${id}`, { headers: headers }); //8082 es snippet
+        const response = await axios.get(`https://snippet-searcher.duckdns.org/snippets/snippets/${id}`, { headers: headers }); //8082 es snippet
         return response.data;
     }
 
@@ -38,7 +38,7 @@ export class OperationHandler implements SnippetOperations {
         const headers = await this.getAuthHeaders();
         console.log(updateSnippet)
         const response = await axios.put(
-            `http://localhost:8082/snippets/${id}`,
+            `https://snippet-searcher.duckdns.org/snippets/snippets/${id}`,
             { content: updateSnippet.content },
             {
                 params: { language: "printscript" },
@@ -50,14 +50,14 @@ export class OperationHandler implements SnippetOperations {
 
     async deleteSnippet(id: string): Promise<string> {
         const headers = await this.getAuthHeaders();
-        return axios.delete(`http://localhost:8082/snippets/${id}`, {
+        return axios.delete(`https://snippet-searcher.duckdns.org/snippets/snippets/${id}`, {
             headers: headers
         }) //8082 es snippet
     }
 
     async modifyFormatRule(newRules: Rule[]): Promise<Rule[]> {
         const headers = await this.getAuthHeaders();
-        return axios.put("http://localhost:8082/snippets/config/formatting", newRules, {
+        return axios.put("https://snippet-searcher.duckdns.org/snippets/snippets/config/formatting", newRules, {
             params: {language: "printscript"},
             headers: headers
         }) //8082 es snippet
@@ -65,7 +65,7 @@ export class OperationHandler implements SnippetOperations {
 
     async modifyLintingRule(newRules: Rule[]): Promise<Rule[]> {
         const headers = await this.getAuthHeaders();
-        return axios.put("http://localhost:8082/snippets/config/linting", newRules, {
+        return axios.put("https://snippet-searcher.duckdns.org/snippets/snippets/config/linting", newRules, {
             params: {language: "printscript"},
             headers: headers
         }) //8082 es snippet
@@ -73,7 +73,7 @@ export class OperationHandler implements SnippetOperations {
 
     async listSnippetDescriptors(page: number, pageSize: number, snippetName?: string): Promise<PaginatedSnippets> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.get(`http://localhost:8082/snippets/paginated`, {
+        const response = await axios.get(`https://snippet-searcher.duckdns.org/snippets/snippets/paginated`, {
             params: { page, pageSize, snippetName },
             headers: headers
         });
@@ -102,7 +102,7 @@ export class OperationHandler implements SnippetOperations {
 
     async getUserFriends(name?: string, page: number = 0, pageSize: number = 10): Promise<PaginatedUsers> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.get(`http://localhost:8083/users`, {
+        const response = await axios.get(`https://snippet-searcher.duckdns.org/permissions/users`, {
             params: { name, page: page - 1, pageSize },
             headers: headers
         });
@@ -111,7 +111,7 @@ export class OperationHandler implements SnippetOperations {
 
     async shareSnippet(snippetId: string, userId: string): Promise<Snippet> {
         const headers = await this.getAuthHeaders();
-        return axios.put(`http://localhost:8083/users/snippets/share`, {
+        return axios.put(`https://snippet-searcher.duckdns.org/permissions/users/snippets/share`, {
             snippetId: snippetId,
             id: userId
         }, {
@@ -121,7 +121,7 @@ export class OperationHandler implements SnippetOperations {
 
     async getFormatRules(): Promise<Rule[]> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.get("http://localhost:8082/snippets/config/formatting", {
+        const response = await axios.get("https://snippet-searcher.duckdns.org/snippets/snippets/config/formatting", {
             params: { language: "printscript" },
             headers: headers
         }); //8082 es snippet
@@ -130,7 +130,7 @@ export class OperationHandler implements SnippetOperations {
 
     async getLintingRules(): Promise<Rule[]> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.get("http://localhost:8082/snippets/config/linting", {
+        const response = await axios.get("https://snippet-searcher.duckdns.org/snippets/snippets/config/linting", {
             params: {language: "printscript"},
             headers: headers
         }); //8082 es snippet
@@ -140,7 +140,7 @@ export class OperationHandler implements SnippetOperations {
 
     async getTestCases(): Promise<TestCase[]> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.get("http://localhost:8082/test", {
+        const response = await axios.get("https://snippet-searcher.duckdns.org/snippets/test", {
             headers: headers
         });
 
@@ -159,7 +159,7 @@ export class OperationHandler implements SnippetOperations {
 
     async formatSnippet(snippet: string): Promise<string> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.post("http://localhost:8082/actions/format", {
+        const response = await axios.post("https://snippet-searcher.duckdns.org/snippets/actions/format", {
             params: {
                 code: snippet
             },
@@ -172,7 +172,7 @@ export class OperationHandler implements SnippetOperations {
     async getFileTypes(): Promise<FileType[]> {
         const headers = await this.getAuthHeaders();
         console.log("getFileTypes")
-        const response = await axios.get("http://localhost:8082/actions/type", {
+        const response = await axios.get("https://snippet-searcher.duckdns.org/snippets/actions/type", {
             headers: headers
         });
         if (Array.isArray(response.data)) {
@@ -184,7 +184,7 @@ export class OperationHandler implements SnippetOperations {
     async postTestCase(testCase: Partial<TestCase>, id: string): Promise<TestCase> {
         const headers = await this.getAuthHeaders();
         console.log(id, testCase);
-        return axios.post("http://localhost:8082/test", {
+        return axios.post("https://snippet-searcher.duckdns.org/snippets/test", {
             id: id,
             name: testCase.name,
             input: testCase.input || [],
@@ -196,7 +196,7 @@ export class OperationHandler implements SnippetOperations {
 
     async removeTestCase(id: string): Promise<string> {
         const headers = await this.getAuthHeaders();
-        return axios.delete(`http://localhost:8082/test/${id}`, {
+        return axios.delete(`https://snippet-searcher.duckdns.org/snippets/test/${id}`, {
             headers: headers
         }) //8082 es snippet
     }
@@ -204,7 +204,7 @@ export class OperationHandler implements SnippetOperations {
     async testSnippet(testCase: Partial<TestCase>): Promise<TestCaseResult> {
         const headers = await this.getAuthHeaders();
         console.log(testCase.id)
-        const response = await axios.put("http://localhost:8082/test/execute", {
+        const response = await axios.put("https://snippet-searcher.duckdns.org/snippets/test/execute", {
                 id: testCase.id,
                 name: testCase.name,
                 input: testCase.input || [],
