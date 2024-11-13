@@ -48,7 +48,7 @@ const App = () => {
                 method: 'POST',
                 headers: {
                     Authorization: `${token}`, // Include the access token in the Authorization header
-                    name: user?.nickname || ''
+                    Name: user?.nickname || ''
                 },
             });
 
