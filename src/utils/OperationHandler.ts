@@ -157,12 +157,13 @@ export class OperationHandler implements SnippetOperations {
         }
     }
 
-    async formatSnippet(snippet: string): Promise<string> {
+    async formatSnippet(snippet: string, id: string): Promise<string> {
         const headers = await this.getAuthHeaders();
         const response = await axios.put("https://snippet-searcher.duckdns.org/snippets/actions/format", {
-            params: {
-                code: snippet
-            },
+                code: snippet,
+                language: "printscript",
+                id: id
+            }, {
             headers: headers
         }); //8082 es snippet
         console.log(response.data)
