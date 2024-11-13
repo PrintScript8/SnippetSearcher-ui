@@ -95,7 +95,7 @@ export class OperationHandler implements SnippetOperations {
                 extension: snippet.extension,
                 content: snippet.content,
                 compliance: snippet.status,
-                author: snippet.ownerId.toString()
+                author: snippet.nickName
             }))
         };
     }
@@ -159,7 +159,7 @@ export class OperationHandler implements SnippetOperations {
 
     async formatSnippet(snippet: string): Promise<string> {
         const headers = await this.getAuthHeaders();
-        const response = await axios.post("https://snippet-searcher.duckdns.org/snippets/actions/format", {
+        const response = await axios.put("https://snippet-searcher.duckdns.org/snippets/actions/format", {
             params: {
                 code: snippet
             },
