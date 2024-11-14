@@ -3,10 +3,10 @@ import {CreateSnippet} from "../../src/utils/snippet";
 
 describe('Home', () => {
   beforeEach(() => {
-     cy.loginToAuth0(
-         AUTH0_USERNAME,
-         AUTH0_PASSWORD
-     )
+     // cy.loginToAuth0(
+     //     AUTH0_USERNAME,
+     //     AUTH0_PASSWORD
+     // )
   })
   before(() => {
     process.env.FRONTEND_URL = Cypress.env("FRONTEND_URL");

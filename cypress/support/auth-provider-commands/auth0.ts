@@ -14,7 +14,7 @@ export function loginViaAuth0Ui(username: string, password: string) {
     )
 
     // Ensure Auth0 has redirected us back to the RWA.
-    cy.url().should('equal', 'http://localhost:5173/')
+    cy.url().should('equal', 'https://snippet-searcher.duckdns.org/')
 }
 
 

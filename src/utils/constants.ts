@@ -1,5 +1,5 @@
-export const FRONTEND_URL = process?.env?.FRONTEND_URL ?? "http://localhost:5173"
-export const BACKEND_URL = process?.env?.BACKEND_URL ?? "http://localhost:8082"
+export const FRONTEND_URL = process?.env?.FRONTEND_URL ?? "https://snippet-searcher.duckdns.org/"
+export const BACKEND_URL = process?.env?.BACKEND_URL ?? "https://snippet-searcher.duckdns.org/"
 export const AUTH0_USERNAME = process?.env?.AUTH0_USERNAME ?? "snippetUser@example.com"
 export const AUTH0_PASSWORD = process?.env?.AUTH0_PASSWORD ?? "SnippetPassword123!"
 export const AUTH0_DOMAIN = process?.env?.VITE_AUTH0_DOMAIN ?? "dev-5zdc2llcm7omxrr3.us.auth0.com"
