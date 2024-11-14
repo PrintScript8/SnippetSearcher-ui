@@ -7,7 +7,6 @@ import {FileType} from "../types/FileType.ts";
 import {Rule} from "../types/Rule.ts";
 import {useAuth0} from "@auth0/auth0-react";
 // import {useEffect} from "react";
-import {AUTH0_AUDIENCE} from "./constants.ts";
 import {OperationHandler} from "./OperationHandler.ts";
 
 
@@ -16,7 +15,7 @@ export const useSnippetsOperations = () => {
 
   // Wrapper function to include authorizationParams
   const getAccessToken = () => {
-    return getAccessTokenSilently({authorizationParams: {audience: AUTH0_AUDIENCE}});
+    return getAccessTokenSilently({authorizationParams: {audience: "https://SnippetSercher-API2/"}});
   };
 
   // If a token is obtained it is logged to the console, else an error is logged

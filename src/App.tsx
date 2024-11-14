@@ -6,7 +6,6 @@ import {QueryClient, QueryClientProvider} from "react-query";
 import RulesScreen from "./screens/Rules.tsx";
 import {useAuth0, withAuthenticationRequired} from "@auth0/auth0-react";
 import {useEffect} from "react";
-import {AUTH0_AUDIENCE} from "./utils/constants.ts";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +15,10 @@ const router = createBrowserRouter([
     {
         path: '/rules',
         element: <RulesScreen/>
+    },
+    {
+    path: '/login',
+    element: <HomeScreen/>
     }
 ]);
 
@@ -27,11 +30,11 @@ const App = () => {
         // If the user is being redirected back from Auth0, handle the redirect and process the authentication
         const handleAuth = async () => {
             console.log("Is inside handleAuth")
-                // If the user is authenticated, fetch the token and call the API
-                if (isAuthenticated) {
-                    const token = await getAccessTokenSilently({authorizationParams: {audience: AUTH0_AUDIENCE}});
-                    await callLogin(token);
-                }
+            // If the user is authenticated, fetch the token and call the API
+            if (isAuthenticated) {
+                const token = await getAccessTokenSilently({authorizationParams: {audience: "https://SnippetSercher-API2/"}});
+                await callLogin(token);
+            }
         };
 
         // Call the function to handle the login/redirect logic
@@ -44,7 +47,7 @@ const App = () => {
         console.log("This is the user: ", user)
         //console.log("This is the name: ", user.name)
         try {
-            const response = await fetch('https://snippet-searcher.duckdns.org/permissions/users', {
+            const response = await fetch('http://localhost:8083/users', {
                 method: 'POST',
                 headers: {
                     Authorization: `${token}`, // Include the access token in the Authorization header

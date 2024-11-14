@@ -8,7 +8,7 @@ describe('Protected routes test', () => {
     cy.wait(1000)
 
     // Check if the URL is redirected to the login page
-    cy.url().should('not include', '/login');
+    cy.url().should('include', '/login');
   });
 
   it('should display login content', () => {
