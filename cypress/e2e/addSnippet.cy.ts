@@ -42,6 +42,7 @@ describe('Add snippet tests', () => {
     // Click the add snippet button
     cy.get('.css-9jay18 > .MuiButton-root').click();
 
+    cy.wait(500);
     // Use a more specific selector for "Load snippet from file"
     cy.contains('Load snippet from file').click();
     cy.get('[data-testid="upload-file-input"').selectFile("cypress/fixtures/example_ps.prs", {force: true})

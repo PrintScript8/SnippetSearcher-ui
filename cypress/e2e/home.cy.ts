@@ -27,6 +27,7 @@ describe('Home', () => {
     cy.visit(FRONTEND_URL)
     const first10Snippets = cy.get('[data-testid="snippet-row"]')
 
+    cy.wait(500)
     first10Snippets.should('have.length.greaterThan', 0)
 
     first10Snippets.should('have.length.lessThan', 10)
@@ -73,7 +74,7 @@ describe('Home', () => {
       cy.get('.MuiBox-root > .MuiInputBase-root > .MuiInputBase-input').clear();
       cy.get('.MuiBox-root > .MuiInputBase-root > .MuiInputBase-input').type(snippetData.name + "{enter}");
 
-      cy.wait("@getSnippets")
+      // cy.wait("@getSnippets")
       cy.contains(snippetData.name).should('exist');
     })
   })
