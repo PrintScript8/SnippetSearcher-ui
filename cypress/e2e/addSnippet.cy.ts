@@ -39,8 +39,11 @@ describe('Add snippet tests', () => {
     }).as('postRequest');
 
     /* ==== Generated with Cypress Studio ==== */
-    // cy.get('.css-9jay18 > .MuiButton-root').click();
-    // cy.get('.MuiList-root > [tabindex="2"]').click();
+    // Click the add snippet button
+    cy.get('.css-9jay18 > .MuiButton-root').click();
+
+    // Use a more specific selector for "Load snippet from file"
+    cy.contains('Load snippet from file').click();
     cy.get('[data-testid="upload-file-input"').selectFile("cypress/fixtures/example_ps.prs", {force: true})
 
     cy.get('[data-testid="SaveIcon"]').click();
